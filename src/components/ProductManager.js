@@ -42,11 +42,11 @@ export default class ProductManager {
             }
 
             if (updatedFields.hasOwnProperty('id')) {
-                updatedProduct.id = products[index].id;
+                updatedProduct.id = products[index].id
                 return false
             }
 
-            products[index] = updatedProduct;
+            products[index] = updatedProduct
             this.saveProductsToFile(products)
 
             return true
@@ -87,7 +87,7 @@ export default class ProductManager {
             const data = JSON.stringify(products, null, 2)
             await fs.writeFile(this.path, data)
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
     }
 
