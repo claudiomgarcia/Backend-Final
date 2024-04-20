@@ -6,78 +6,97 @@ export default class ProductManager {
     }
 
     async addProduct(product) {
-        const { code } = product
-        const products = await this.getProducts()
+        try {
+            const { code } = product
+            const products = await this.getProducts()
 
-        const existingProduct = products.find(item => item.code === code)
-        if (existingProduct) {
-            return false
-        }
-
-        const newProduct = {
-            id: this.getNextId(products),
-            ...product
-        }
-        products.push(newProduct)
-        this.saveProductsToFile(products)
-        return true
-    }
-
-    async getProductById(id) {
-        const products = await this.getProducts()
-        const product = products.find(product => product.id === id)
-        if (!product) {
-            return null
-        }
-        return product
-    }
-
-    async updateProduct(id, updatedFields) {
-        const products = await this.getProducts()
-        const index = products.findIndex(product => product.id === id)
-        if (index !== -1) {
-            const updatedProduct = {
-                ...products[index],
-                ...updatedFields
-            }
-
-            if (updatedFields.hasOwnProperty('id')) {
-                updatedProduct.id = products[index].id
+            const existingProduct = products.find(item => item.code === code)
+            if (existingProduct) {
                 return false
             }
 
-            products[index] = updatedProduct
+            const newProduct = {
+                id: this.getNextId(products),
+                ...product
+            }
+            products.push(newProduct)
             this.saveProductsToFile(products)
-
             return true
+        } catch (error) {
+            throw error
         }
-        else {
-            return null
+
+    }
+
+    async getProductById(id) {
+        try {
+            const products = await this.getProducts()
+            const product = products.find(product => product.id === id)
+            if (!product) {
+                return null
+            }
+            return product
+        } catch (error) {
+            throw error
+        }
+
+    }
+
+    async updateProduct(id, updatedFields) {
+        try {
+            const products = await this.getProducts()
+            const index = products.findIndex(product => product.id === id)
+            if (index !== -1) {
+                const updatedProduct = {
+                    ...products[index],
+                    ...updatedFields
+                }
+
+                if (updatedFields.hasOwnProperty('id')) {
+                    updatedProduct.id = products[index].id
+                    return false
+                }
+
+                products[index] = updatedProduct
+                this.saveProductsToFile(products)
+
+                return true
+            }
+            else {
+                return null
+            }
+        } catch (error) {
+            throw error
         }
     }
 
     async deleteProduct(id) {
-        const products = await this.getProducts()
-        const index = products.findIndex(product => product.id === id)
-        if (index === -1) {
-            return null
+        try {
+            const products = await this.getProducts()
+            const index = products.findIndex(product => product.id === id)
+            if (index === -1) {
+                return null
+            }
+            else {
+                products.splice(index, 1)
+                await this.saveProductsToFile(products)
+                return true
+            }
+        } catch (error) {
+            throw error
         }
-        else {
-            products.splice(index, 1)
-            await this.saveProductsToFile(products)
-            return true
-        }
+
     }
 
     async getProducts() {
         try {
             const data = await fs.readFile(this.path, 'utf8')
-            return JSON.parse(data)
+            return data ? JSON.parse(data) : []
         } catch (error) {
             if (error.code === 'ENOENT') {
                 return []
             } else {
-                console.error(error)
+                throw error
             }
         }
     }
@@ -87,7 +106,7 @@ export default class ProductManager {
             const data = JSON.stringify(products, null, 2)
             await fs.writeFile(this.path, data)
         } catch (error) {
-            console.error(error)
+            throw error
         }
     }
 

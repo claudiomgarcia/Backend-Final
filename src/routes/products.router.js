@@ -10,18 +10,13 @@ productsRouter.get('/', async (req, res) => {
         const readProducts = await productManager.getProducts()
         const productsLimit = readProducts.slice(0, limit)
 
-        if (isNaN(limit)) {
-            return res.status(400).json({ error: 'El límite proporcionado no es un número' })
-        }
-
         if (!limit) {
             return res.json(readProducts)
         }
 
         res.json(productsLimit)
     } catch (error) {
-        res.status(500).json({ error: 'Hubo un error al obtener los productos.' })
-        console.log(error)
+        res.status(500).json({ error: 'Hubo un error al obtener los productos.', message: error.message })
     }
 })
 
@@ -39,7 +34,7 @@ productsRouter.get('/:pid', async (req, res) => {
         }
         res.json(product)
     } catch (error) {
-        res.status(500).json({ error: 'Hubo un error al obtener el producto.' })
+        res.status(500).json({ error: 'Hubo un error al obtener el producto.', message: error.message })
     }
 })
 
@@ -61,7 +56,7 @@ productsRouter.post('/', async (req, res) => {
         res.status(201).json({ message: `Se agregó correctamente el producto con el código "${product.code}".` })
 
     } catch (error) {
-        res.status(500).json({ error: 'Hubo un error al agregar el producto.' })
+        res.status(500).json({ error: 'Hubo un error al agregar el producto.', message: error.message })
     }
 })
 
@@ -87,7 +82,7 @@ productsRouter.put('/:pid', async (req, res) => {
         res.json({ message: `Se actualizó el producto ${pid}` })
 
     } catch (error) {
-        res.status(500).json({ error: 'Hubo un error al actualizar el producto.' })
+        res.status(500).json({ error: 'Hubo un error al actualizar el producto.', message: error.message })
     }
 })
 
@@ -107,7 +102,7 @@ productsRouter.delete('/:pid', async (req, res) => {
         res.json({ message: `Se eliminó correctamente el producto con el id ${pid}` })
 
     } catch (error) {
-        res.status(500).json({ error: 'Hubo un error al intentar eliminar el producto.' })
+        res.status(500).json({ error: 'Hubo un error al intentar eliminar el producto.', message: error.message })
     }
 })
 

@@ -17,7 +17,7 @@ export default class CartManager {
             await this.saveCartsToFile(carts)
             return newCart
         } catch (error) {
-            console.log(error)
+            throw error
         }
     }
 
@@ -42,7 +42,7 @@ export default class CartManager {
             return cart
         }
         catch (error) {
-            console.log(error)
+            throw error
         }
     }
 
@@ -55,19 +55,19 @@ export default class CartManager {
             }
             return cart
         } catch (error) {
-            console.log(error)
+            throw error
         }
     }
 
     async getCartsFromFile() {
         try {
             const data = await fs.readFile(this.path, 'utf8')
-            return JSON.parse(data)
+            return data ? JSON.parse(data) : []
         } catch (error) {
             if (error.code === 'ENOENT') {
                 return []
             } else {
-                console.error(error)
+                throw error
             }
         }
     }
@@ -77,7 +77,7 @@ export default class CartManager {
             const data = JSON.stringify(carts, null, 2)
             await fs.writeFile(this.path, data, 'utf8')
         } catch (error) {
-            console.log(error)
+            throw error
         }
     }
 

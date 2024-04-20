@@ -20,8 +20,8 @@ cartsRouter.get('/:cid', async (req, res) => {
 
         res.json(cart)
     }
-    catch {
-        res.status(500).json({ error: 'Ocurrió un error al obtener el carrito' })
+    catch (error) {
+        res.status(500).json({ error: 'Ocurrió un error al obtener el carrito', message: error.message })
     }
 })
 
@@ -30,7 +30,7 @@ cartsRouter.post('/', async (req, res) => {
         const newCart = await cartManager.createCart()
         res.status(201).json({ message: `Carrito creado con id: ${newCart.id}` })
     } catch (error) {
-        res.status(500).json({ error: 'Ocurrió un error al crear el carrito' })
+        res.status(500).json({ error: 'Ocurrió un error al crear el carrito', message: error.message })
     }
 })
 
@@ -51,8 +51,8 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
 
         res.json({ message: `Se agregó el producto ${pid} al carrito ${cid}` })
     }
-    catch {
-        res.status(500).json({ error: 'Ocurrió un error al agregar el producto al carrito' })
+    catch (error){
+        res.status(500).json({ error: 'Ocurrió un error al agregar el producto al carrito', message: error.message })
 
     }
 })
