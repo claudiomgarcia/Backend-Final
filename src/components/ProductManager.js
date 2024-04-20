@@ -83,8 +83,12 @@ export default class ProductManager {
     }
 
     async saveProductsToFile(products) {
-        const data = JSON.stringify(products, null, 2)
-        await fs.writeFile(this.path, data)
+        try {
+            const data = JSON.stringify(products, null, 2)
+            await fs.writeFile(this.path, data)
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     getNextId(products) {

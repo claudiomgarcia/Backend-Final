@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import { productManager } from '../app.js'
 
-
 const productsRouter = Router()
 
 productsRouter.get('/', async (req, res) => {
@@ -16,7 +15,7 @@ productsRouter.get('/', async (req, res) => {
 
         res.json(productsLimit)
     } catch (error) {
-        console.log(error);
+        res.status(500).json({ error: 'Hubo un error al obtener los productos.' })
     }
 })
 
@@ -32,15 +31,16 @@ productsRouter.get('/:pid', async (req, res) => {
         if (!product) {
             return res.status(404).json({ error: `No se encontró ningún producto con el id ${pid}.` });
         }
-        res.json(await productManager.getProductById(pid))
+        res.json(product)
     } catch (error) {
-        console.log(error);
+        res.status(500).json({ error: 'Hubo un error al obtener el producto.' })
     }
 })
 
 productsRouter.post('/', async (req, res) => {
     try {
         const product = req.body
+        product.status = true
 
         if (!product.title || !product.description || !product.code || !product.price || !product.status || !product.stock || !product.category) {
             res.status(400).json({ error: 'Faltan campos obligatorios en el producto.' })
@@ -55,7 +55,7 @@ productsRouter.post('/', async (req, res) => {
         res.json({ message: `Se agregó correctamente el producto con el código "${product.code}".` });
 
     } catch (error) {
-        console.log(error);
+        res.status(500).json({ error: 'Hubo un error al agregar el producto.' })
     }
 })
 
@@ -80,9 +80,8 @@ productsRouter.put('/:pid', async (req, res) => {
 
         res.status(200).json({ message: `Se actualizó el producto ${pid}` });
 
-
     } catch (error) {
-
+        res.status(500).json({ error: 'Hubo un error al actualizar el producto.' })
     }
 })
 
@@ -102,7 +101,7 @@ productsRouter.delete('/:pid', async (req, res) => {
         res.json({ message: `Se eliminó correctamente el producto con el id ${pid}` });
 
     } catch (error) {
-
+        res.status(500).json({ error: 'Hubo un error al intentar eliminar el producto.' })
     }
 })
 
