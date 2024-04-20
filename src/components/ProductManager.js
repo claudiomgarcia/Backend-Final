@@ -7,17 +7,11 @@ export default class ProductManager {
 
     async addProduct(product) {
         const { code } = product
-        const products = await this.getProductsFromFile()
+        const products = await this.getProducts()
 
-        if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
-            console.error('Faltan campos obligatorios en el producto. No se puede agregar el producto.')
-            return
-        }
-
-        const existingProduct = products.find(product => product.code === code)
+        const existingProduct = products.find(item => item.code === code)
         if (existingProduct) {
-            console.error(`Ya existe un producto con el mismo código "${code}". No se puede agregar el producto.`)
-            return
+            return false
         }
 
         const newProduct = {
@@ -26,67 +20,56 @@ export default class ProductManager {
         }
         products.push(newProduct)
         this.saveProductsToFile(products)
-        console.log(`Se agregó correctamente el producto con el código "${code}".`)
-    }
-
-
-    async getProducts() {
-        return await this.getProductsFromFile()
+        return true
     }
 
     async getProductById(id) {
-        try {
-            const products = await this.getProductsFromFile()
-            const product = products.find(product => product.id === id)
-            if (!product) {
-                return { error: `No se encontró ningún producto con el id ${id}.` }
-            }
-            return product
-        } catch (error) {
-            console.error(error)
+        const products = await this.getProducts()
+        const product = products.find(product => product.id === id)
+        if (!product) {
+            return null
         }
+        return product
     }
 
     async updateProduct(id, updatedFields) {
-        try {
-            const products = await this.getProductsFromFile()
-            const index = products.findIndex(product => product.id === id)
+        const products = await this.getProducts()
+        const index = products.findIndex(product => product.id === id)
+        if (index !== -1) {
+            const updatedProduct = {
+                ...products[index],
+                ...updatedFields
+            }
 
             if (updatedFields.hasOwnProperty('id')) {
-                return { error: 'No se puede actualizar el id de un producto' }
+                updatedProduct.id = products[index].id;
+                return false
             }
 
-            if (index !== -1) {
-                products[index] = {
-                    ...products[index],
-                    ...updatedFields
-                }
-                this.saveProductsToFile(products)
-                console.log(`Se actualizó el producto`)
-            }
-        } catch (error) {
-            console.error(error)
+            products[index] = updatedProduct;
+            this.saveProductsToFile(products)
+
+            return true
+        }
+        else {
+            return null
         }
     }
 
     async deleteProduct(id) {
-        try {
-            const products = await this.getProductsFromFile()
-            const index = products.findIndex(product => product.id === id)
-            if (index === -1) {
-                console.error(`No se encontró ningún producto con el id ${id}`)
-            }
-            else {
-                products.splice(index, 1)
-                this.saveProductsToFile(products)
-                console.log(`Se eliminó correctamente el producto con el id ${id}`)
-            }
-        } catch (error) {
-            console.error(error)
+        const products = await this.getProducts()
+        const index = products.findIndex(product => product.id === id)
+        if (index === -1) {
+            return null
+        }
+        else {
+            products.splice(index, 1)
+            await this.saveProductsToFile(products)
+            return true
         }
     }
 
-    async getProductsFromFile() {
+    async getProducts() {
         try {
             const data = await fs.readFile(this.path, 'utf8')
             return JSON.parse(data)

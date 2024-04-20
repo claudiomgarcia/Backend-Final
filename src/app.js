@@ -1,35 +1,17 @@
-import express, { json, urlencoded } from 'express'
+import express from 'express'
 import ProductManager from './components/ProductManager.js'
+import productsRouter from './routes/products.router.js'
 
 const app = express()
 const PORT = 8080
 
-app.use(json())
-app.use(urlencoded({extended:true}))
+export const productManager = new ProductManager('./products.json')
 
-const productos = new ProductManager('productos.json')
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-app.get('/', (req, res) => {
-    res.send(`Product Manager`)
-})
+app.use('/api/products', productsRouter)
 
-app.get('/products', async (req, res) => {
-    const limit = Number(req.query.limit)
-    const readProducts = await productos.getProductsFromFile()
-    const productsLimit = readProducts.slice(0, limit)
-
-    if (!limit) {
-        return res.json(readProducts)
-    }
-
-    res.json(productsLimit)
-})
-
-app.get('/products/:pid', async (req, res) => {
-    let pid = Number(req.params.pid)
-    if (isNaN(pid)) return res.json({ error: 'El id no es un número' })
-    res.json(await productos.getProductById(pid))
-})
 
 
 app.listen(PORT, () => console.log(`Server running on: http://localhost:${PORT}`))
