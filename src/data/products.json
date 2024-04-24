@@ -4,7 +4,10 @@
     "title": "Smartphone Samsung Galaxy S23",
     "description": "Smartphone de última generación con pantalla AMOLED de 6.8 pulgadas, cámara de 108MP y procesador Snapdragon 8 Gen 2.",
     "price": 1500,
-    "thumbnail": "imagen1.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "ABC123",
     "stock": 10
   },
@@ -13,7 +16,10 @@
     "title": "Auriculares inalámbricos Sony WH-1000XM5",
     "description": "Auriculares inalámbricos con cancelación de ruido de alta calidad, sonido premium y diseño elegante.",
     "price": 400,
-    "thumbnail": "imagen2.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "DEF456",
     "stock": 5
   },
@@ -22,7 +28,10 @@
     "title": "Smartwatch Apple Watch Series 8",
     "description": "Smartwatch con pantalla Retina Always-On Display, sensor de SpO2 y electrocardiograma (ECG).",
     "price": 500,
-    "thumbnail": "imagen3.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "GHI789",
     "stock": 20
   },
@@ -31,7 +40,10 @@
     "title": "Laptop Dell XPS 13 Plus",
     "description": "Laptop ultradelgado y liviano con pantalla InfinityEdge de 13.4 pulgadas y procesador Intel Core i7.",
     "price": 1200,
-    "thumbnail": "imagen4.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "JKL101",
     "stock": 8
   },
@@ -40,7 +52,10 @@
     "title": "Tablet Samsung Galaxy Tab S8 Ultra",
     "description": "Tablet con pantalla Super AMOLED de 14.6 pulgadas, procesador Snapdragon 8 Gen 1 y S Pen incluido.",
     "price": 1000,
-    "thumbnail": "imagen5.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "MNO234",
     "stock": 15
   },
@@ -49,7 +64,10 @@
     "title": "Cámara réflex Canon EOS R7",
     "description": "Cámara réflex con sensor APS-C de 32.5MP, procesador DIGIC X y sistema de enfoque automático Dual Pixel CMOS AF II.",
     "price": 1800,
-    "thumbnail": "imagen6.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "PQR567",
     "stock": 3
   },
@@ -58,7 +76,10 @@
     "title": "Dron DJI Mavic 3",
     "description": "Dron con cámara Hasselblad de 5.1K, sistema de transmisión O3+ de largo alcance y Gimbal de 3 ejes.",
     "price": 2500,
-    "thumbnail": "imagen7.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "STU890",
     "stock": 7
   },
@@ -67,7 +88,10 @@
     "title": "Consola de videojuegos PlayStation 5",
     "description": "Consola de videojuegos de última generación con gráficos 4K, SSD ultrarrápido y un catálogo de juegos exclusivos.",
     "price": 500,
-    "thumbnail": "imagen8.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "VWX123",
     "stock": 12
   },
@@ -76,7 +100,10 @@
     "title": "Televisor LG OLED C2",
     "description": "Televisor con pantalla OLED de 65 pulgadas, resolución 4K UHD, procesador Alpha 9 Gen 5 AI y sonido Dolby Atmos.",
     "price": 2000,
-    "thumbnail": "imagen9.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "YZA456",
     "stock": 4
   },
@@ -85,7 +112,10 @@
     "title": "Auriculares inalámbricos Xiaomi Redmi Buds 3 Pro",
     "description": "Auriculares inalámbricos con cancelación de ruido activa, sonido Hi-Fi y carga inalámbrica.",
     "price": 100,
-    "thumbnail": "imagen10.jpg",
+    "thumbnail": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ],
     "code": "BCD789",
     "stock": 10
   }

@@ -1,4 +1,7 @@
 import { promises as fs } from 'fs'
+import ProductManager from './ProductManager.js'
+
+const productManager = new ProductManager('./src/data/products.json')
 
 export default class CartManager {
     constructor(path) {
@@ -25,17 +28,18 @@ export default class CartManager {
         try {
             const carts = await this.getCartsFromFile()
             const cart = carts.find(cart => cart.id === cid)
+            const allProducts = await productManager.getProductById(pid)
 
-            if (cart === undefined) {
-                return null
-            }
+            if (cart === undefined) return null
 
-            const existingProduct = cart.products.find(product => product.id === pid)
+            if (allProducts === null) return false
+
+            const existingProduct = cart.products.find(product => product.pid === pid)
 
             if (existingProduct) {
                 existingProduct.quantity += 1
             } else {
-                cart.products.push({ id: pid, quantity: 1 })
+                cart.products.push({ pid: pid, quantity: 1 })
             }
 
             await this.saveCartsToFile(carts)

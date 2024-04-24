@@ -45,8 +45,12 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
 
         const addToCart = await cartManager.addProductToCart(cid, pid)
 
-        if (!addToCart) {
+        if (addToCart === null) {
             return res.status(404).send({ error: `No se encontró ningún carrito con el id ${cid}.` })
+        }
+
+        if (addToCart === false) {
+            return res.status(404).send({ error: `No se encontró ningún producto con el id ${pid}.` })
         }
 
         res.json({ message: `Se agregó el producto ${pid} al carrito ${cid}` })
