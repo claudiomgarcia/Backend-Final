@@ -1,0 +1,24 @@
+<div class="container pt-5">
+        <h1 class="title pb-3">Lista de Productos</h1>
+        <table class="table is-bordered is-hoverable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each readProducts}}
+                <tr>
+                    <th>{{id}}</th>
+                    <td>{{title}}</td>
+                    <td>{{description}}</td>
+                    <td>{{stock}}</td>
+                    <td>${{price}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
