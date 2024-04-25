@@ -20,7 +20,7 @@ export default class ProductManager {
                 ...product
             }
             products.push(newProduct)
-            this.saveProductsToFile(products)
+            await this.saveProductsToFile(products)
             return true
         } catch (error) {
             throw error
@@ -58,7 +58,7 @@ export default class ProductManager {
                 }
 
                 products[index] = updatedProduct
-                this.saveProductsToFile(products)
+                await this.saveProductsToFile(products)
 
                 return true
             }

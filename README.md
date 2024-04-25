@@ -28,6 +28,8 @@ Este proyecto está en desarrollo y se trata de un proyecto con fines educativos
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
 - [Handlebars](https://handlebarsjs.com/)
+- [Socket.IO](https://socket.io/)
+- [Bulma](https://bulma.io/)
 
 ## Deployment
 Próximamente.

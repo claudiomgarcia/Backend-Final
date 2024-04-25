@@ -1,24 +1,28 @@
 <div class="container pt-5">
-        <h1 class="title pb-3">Lista de Productos</h1>
-        <table class="table is-bordered is-hoverable">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Título</th>
-                    <th>Descripción</th>
-                    <th>Stock</th>
-                    <th>Precio</th>
-                </tr>
-            </thead>
-            <tbody>
+    <h1 class="title pb-3">Lista de Productos</h1>
+
+    <div class="columns is-centered">
+        <div class="column">
+            <div class="columns is-multiline is-centered">
                 {{#each readProducts}}
-                <tr>
-                    <th>{{id}}</th>
-                    <td>{{title}}</td>
-                    <td>{{description}}</td>
-                    <td>{{stock}}</td>
-                    <td>${{price}}</td>
-                </tr>
+                <div class="column is-one-fifth">
+                    <div class="card" style="height: 100%">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-5">{{title}}</p>
+                                    <p class="subtitle is-6">${{price}}</p>
+                                </div>
+                            </div>
+                            <div class="content">
+                                {{description}}
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{/each}}
-            </tbody>
-        </table>
+            </div>
+        </div>
+    </div>
+</div>
