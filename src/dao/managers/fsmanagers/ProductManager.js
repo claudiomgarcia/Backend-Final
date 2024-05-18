@@ -88,10 +88,11 @@ export default class ProductManager {
 
     }
 
-    async getProducts() {
+    async getProducts(limit) {
         try {
             const data = await fs.readFile(this.path, 'utf8')
-            return data ? JSON.parse(data) : []
+            const products = data ? JSON.parse(data) : []
+            return limit ? products.slice(0, limit) : products
         } catch (error) {
             if (error.code === 'ENOENT') {
                 return []

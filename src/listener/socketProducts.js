@@ -1,11 +1,12 @@
-import ProductManager from "../components/ProductManager.js"
+//import ProductManager from "../dao/managers/fsmanagers/ProductManager.js"
+import ProductManager from '../dao/managers/mongomanagers/mongoProductManager.js'
 import __dirname from "../utils.js"
 
-const productManager = new ProductManager(__dirname + '/data/products.json')
+//const productManager = new ProductManager(__dirname + '/dao/managers/fsmanagers/data/products.json')
+const productManager = new ProductManager()
 
 const socketProducts = (socketServer) => {
     socketServer.on('connection', async (socket) => {
-        console.log('Nuevo cliente conectado')
 
         const sendUpdatedProductList = async () => {
             const productList = await productManager.getProducts()
@@ -29,10 +30,6 @@ const socketProducts = (socketServer) => {
             } catch (error) {
                 console.error('Error al eliminar el producto:', error)
             }
-        })
-
-        socket.on('disconnect', () => {
-            console.log("Cliente desconectado")
         })
     })
 }

@@ -1,21 +1,19 @@
 import { Router } from 'express'
-import ProductManager from '../components/ProductManager.js'
+//import ProductManager from '../dao/managers/fsmanagers/ProductManager.js'
+import ProductManager from '../dao/managers/mongomanagers/mongoProductManager.js'
 import __dirname from '../utils.js'
 
 const productsRouter = Router()
-const productManager = new ProductManager(__dirname + '/data/products.json')
+//const productManager = new ProductManager(__dirname + '/dao/managers/fsmanagers/data/products.json')
+
+const productManager = new ProductManager()
 
 productsRouter.get('/', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit)
-        const readProducts = await productManager.getProducts()
-        const productsLimit = readProducts.slice(0, limit)
+        const readProducts = await productManager.getProducts(limit)
 
-        if (!limit) {
-            return res.json(readProducts)
-        }
-
-        res.json(productsLimit)
+        res.json(readProducts)
     } catch (error) {
         res.status(500).json({ error: 'Hubo un error al obtener los productos.', message: error.message })
     }
@@ -23,12 +21,12 @@ productsRouter.get('/', async (req, res) => {
 
 productsRouter.get('/:pid', async (req, res) => {
     try {
-        const pid = parseInt(req.params.pid)
+        const pid = req.params.pid
         const product = await productManager.getProductById(pid)
 
-        if (isNaN(pid)) {
-            return res.status(400).json({ error: 'El id no es un número' })
-        }
+        // if (isNaN(pid)) {
+        //     return res.status(400).json({ error: 'El id no es un número' })
+        // }
 
         if (!product) {
             return res.status(404).json({ error: `No se encontró ningún producto con el id ${pid}.` })
@@ -44,9 +42,9 @@ productsRouter.post('/', async (req, res) => {
         const product = req.body
         product.status = true
 
-        if (!product.title || !product.description || !product.code || !product.price || !product.status || !product.stock || !product.category) {
-            res.status(400).json({ error: 'Faltan campos obligatorios en el producto.' })
-        }
+        // if (!product.title || !product.description || !product.code || !product.price || !product.status || !product.stock || !product.category) {
+        //     res.status(400).json({ error: 'Faltan campos obligatorios en el producto.' })
+        // }
 
         const createProduct = await productManager.addProduct(product)
 
@@ -63,12 +61,12 @@ productsRouter.post('/', async (req, res) => {
 
 productsRouter.put('/:pid', async (req, res) => {
     try {
-        const pid = parseInt(req.params.pid)
+        const pid = req.params.pid
         const fields = req.body
 
-        if (isNaN(pid)) {
-            return res.status(400).json({ error: 'El id no es un número' })
-        }
+        // if (isNaN(pid)) {
+        //     return res.status(400).json({ error: 'El id no es un número' })
+        // }
 
         const product = await productManager.updateProduct(pid, fields)
 
@@ -89,12 +87,12 @@ productsRouter.put('/:pid', async (req, res) => {
 
 productsRouter.delete('/:pid', async (req, res) => {
     try {
-        const pid = Number(req.params.pid)
+        const pid = req.params.pid
         const product = await productManager.deleteProduct(pid)
 
-        if (isNaN(pid)) {
-            return res.status(400).json({ error: 'El id no es un número' })
-        }
+        // if (isNaN(pid)) {
+        //     return res.status(400).json({ error: 'El id no es un número' })
+        // }
 
         if (!product) {
             return res.status(404).json({ error: `No se encontró ningún producto con el id ${pid}` })
