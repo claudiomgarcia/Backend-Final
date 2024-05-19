@@ -8,7 +8,7 @@ const viewsRouter = Router()
 
 const productManager = new ProductManager()
 
-viewsRouter.get('/', async (req, res) => {
+viewsRouter.get('/products', async (req, res) => {
     try {
         const { limit, sort, query } = req.query
         const page = parseInt(req.query.page)
@@ -19,8 +19,8 @@ viewsRouter.get('/', async (req, res) => {
         const hasPrevPage = currentPage > 1
         const hasNextPage = currentPage < totalPages
 
-        const prevLink = hasPrevPage ? `/?page=${currentPage - 1}` : null
-        const nextLink = hasNextPage ? `/?page=${currentPage + 1}` : null
+        const prevLink = hasPrevPage ? `/products?page=${currentPage - 1}${limit !== undefined ? `&limit=${limit}` : ''}${sort !== undefined ? `&sort=${sort}` : ''}${query !== undefined ? `&query=${query}` : ''}` : null;
+        const nextLink = hasNextPage ? `/products?page=${currentPage + 1}${limit !== undefined ? `&limit=${limit}` : ''}${sort !== undefined ? `&sort=${sort}` : ''}${query !== undefined ? `&query=${query}` : ''}` : null;
 
         res.render('home', {
             readProducts: products,
