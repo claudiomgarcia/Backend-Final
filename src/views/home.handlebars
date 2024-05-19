@@ -1,5 +1,26 @@
 <div class="container pt-5">
-    <h1 class="title pb-3">Lista de Productos</h1>
+    <h1 class="title pb-3"><a href="/products">Lista de Productos</a></h1>
+
+    <div class="buttons is-right">
+        <button class="button is-link"><i class="fas fa-shopping-cart p-1"></i>Carrito</button>
+    </div>
+
+    <div class="dropdown is-hoverable is-left pb-3">
+        <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                <span>Ordenar por:</span>
+                <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+            <div class="dropdown-content">
+                <a href="{{ascLink}}" class="dropdown-item"> Manor Precio </a>
+                <a href="{{descLink}}" class="dropdown-item"> Mayor Precio </a>
+            </div>
+        </div>
+    </div>
 
     <div class="columns is-centered">
         <div class="column">
@@ -7,17 +28,18 @@
                 {{#each readProducts}}
                 <div class="column is-one-fifth">
                     <div class="card" style="height: 100%">
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p class="title is-5">{{title}}</p>
-                                    <p class="subtitle is-6">${{price}}</p>
-                                </div>
-                            </div>
-                            <div class="content">
-                                {{description}}
-                                <br />
-                            </div>
+                        <p class="has-text-right">
+                            <a href="?query={{category}}" class="button is-small is-text">{{category}}</a>
+                        </p>
+                        <div class="card-content mb-6" style="flex-grow: 1">
+                            <p class="title is-5">{{title}}</p>
+                            <p class="subtitle is-6">${{price}}</p>
+                            <p>{{description}}</p>
+                        </div>
+                        <div style="position: absolute; bottom: 0; right: 0;">
+                            <p class="buttons p-2">
+                                <button class="button is-link">Añadir al carrito</button>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -25,27 +47,29 @@
             </div>
         </div>
     </div>
+    <div class="pb-6">
+        <nav class="pagination is-centered pt-3" role="navigation" aria-label="pagination">
+            {{#if hasPrevPage}}
+            <a href="{{prevLink}}" class="pagination-previous">Anterior</a>
+            {{else}}
+            <button class="pagination-previous" disabled>Anterior</button>
+            {{/if}}
+            {{#if hasNextPage}}
+            <a href="{{nextLink}}" class="pagination-next">Siguiente</a>
+            {{else}}
+            <button class="pagination-next" disabled>Siguiente</button>
+            {{/if}}
 
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        {{#if hasPrevPage}}
-        <a href="{{prevLink}}" class="pagination-previous">Anterior</a>
-        {{else}}
-        <button class="pagination-previous" disabled>Anterior</button>
-        {{/if}}
-        {{#if hasNextPage}}
-        <a href="{{nextLink}}" class="pagination-next">Siguiente</a>
-        {{else}}
-        <button class="pagination-next" disabled>Siguiente</button>
-        {{/if}}
-        {{!-- <ul class="pagination-list">
-            <li><a href="#" class="pagination-link" aria-label="Goto page 1" aria-current="page">1</a></li>
-            <li><span class="pagination-ellipsis">&hellip;</span></li>
-            <li><a href="#" class="pagination-link" aria-label="Goto page 2">2</a></li>
-            <li>
-                <a class="pagination-link is-current" aria-label="Page 3">3</a>
-            </li>
-        </ul> --}}
-    </nav>
-
-
+            <ul class="pagination-list">
+                {{#each pages}}
+                <li>
+                    <a href="{{pageLink}}" class="pagination-link {{#if isCurrent}} is-current{{/if}}"
+                        aria-label="Goto page {{pageNumber}}" aria-current="{{#if isCurrent}}page{{/if}}">
+                        {{pageNumber}}
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </nav>
+    </div>
 </div>

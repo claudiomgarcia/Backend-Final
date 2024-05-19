@@ -1,6 +1,6 @@
 import { Router } from "express"
 import CartManager from "../dao/managers/mongomanagers/mongoCartManager.js"
-import __dirname from "../utils.js"
+import { __dirname } from "../utils.js"
 
 const cartsRouter = Router()
 const cartManager = new CartManager()

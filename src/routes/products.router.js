@@ -1,7 +1,7 @@
 import { Router } from 'express'
 //import ProductManager from '../dao/managers/fsmanagers/ProductManager.js'
 import ProductManager from '../dao/managers/mongomanagers/mongoProductManager.js'
-import __dirname from '../utils.js'
+import { generateLink } from '../utils.js'
 
 const productsRouter = Router()
 //const productManager = new ProductManager(__dirname + '/dao/managers/fsmanagers/data/products.json')
@@ -10,9 +10,7 @@ const productManager = new ProductManager()
 
 productsRouter.get('/', async (req, res) => {
     try {
-        const { limit, sort, query } = req.query
-        const page = parseInt(req.query.page)
-
+        const { limit, sort, query, page } = req.query
         const readProducts = await productManager.getProducts(limit, page, sort, query)
 
         const { products, totalProducts, totalPages, currentPage } = readProducts
@@ -29,8 +27,8 @@ productsRouter.get('/', async (req, res) => {
             page: currentPage,
             hasPrevPage,
             hasNextPage,
-            prevLink: hasPrevPage ? `/products?limit=${limit}&page=${currentPage - 1}&sort=${sort}&query=${query}` : null,
-            nextLink: hasNextPage ? `/products?limit=${limit}&page=${currentPage + 1}&sort=${sort}&query=${query}` : null
+            prevLink: hasPrevPage ? generateLink('products', currentPage - 1, sort, limit, query) : null,
+            nextLink: hasNextPage ? generateLink('products', currentPage + 1, sort, limit, query) : null
         })
 
     } catch (error) {

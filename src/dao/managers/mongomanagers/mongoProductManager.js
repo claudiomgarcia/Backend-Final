@@ -23,8 +23,8 @@ export default class ProductManager {
         try {
             const filter = query ? { category: query } : {}
             const options = {
-                limit: limit || 10,
-                page: page || 1,
+                limit: parseInt(limit) || 10,
+                page: parseInt(page) || 1,
                 sort: (sort === 'asc' || sort === 'desc') ? { price: sort === 'asc' ? 1 : -1 } : {}
             }
             const products = await productsModel.paginate(filter, { ...options, lean: true })

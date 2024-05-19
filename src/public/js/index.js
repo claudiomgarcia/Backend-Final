@@ -60,7 +60,7 @@ form.addEventListener("submit", (evt) => {
 document.getElementById("delete-btn").addEventListener("click", () => {
     const idInput = document.getElementById("id-prod")
     const deleteId = idInput.value
-    
+
     socketClient.emit("deleteProduct", deleteId)
     idInput.value = ""
 })
