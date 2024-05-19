@@ -2,7 +2,8 @@ import express from 'express'
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views.router.js'
-import handlebars from 'express-handlebars'
+import { create } from 'express-handlebars'
+import truncate from './views/helpers/truncate.js'
 import { Server } from 'socket.io'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
@@ -19,10 +20,16 @@ const httpServer = app.listen(PORT, console.log(`Server running on: http://local
 
 const socketServer = new Server(httpServer)
 
+const handlebars = create({
+    helpers: {
+        truncate
+    }
+})
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
-app.engine('handlebars', handlebars.engine())
+app.engine('handlebars', handlebars.engine)
 app.set('views', __dirname + '/views')
 app.set("view engine", "handlebars")
 
