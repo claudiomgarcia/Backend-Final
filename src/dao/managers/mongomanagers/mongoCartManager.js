@@ -46,4 +46,53 @@ export default class CartManager {
         }
     }
 
+    async deleteProductInCart(cid, pid) {
+        try {
+            const productExist = await cartsModel.findOne({ _id: cid, "products.product": pid });
+
+            if (!productExist) {
+                throw new Error('Producto no encontrado en el carrito')
+            }
+
+            const updatedCart = await cartsModel.findOneAndUpdate(
+                { _id: cid },
+                { $pull: { products: { product: pid } } },
+                { new: true }
+            )
+
+            if (!updatedCart) {
+                throw new Error('Carrito no encontrado');
+            }
+
+            return updatedCart
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async deleteAllProducts(cid) {
+        try {
+            const cart = await cartsModel.findOne({ _id: cid, products: { $exists: true, $ne: [] } })
+
+            if (!cart) {
+                throw new Error('El carrito ya está vacío')
+            }
+            
+            const updatedCart = await cartsModel.findOneAndUpdate(
+                { _id: cid },
+                { $pull: { products: {} } },
+                { new: true }
+            )
+    
+            if (!updatedCart) {
+                throw new Error('Carrito no encontrado');
+            }
+
+        } catch (error) {
+            throw error
+        }
+        
+    }
+
 }

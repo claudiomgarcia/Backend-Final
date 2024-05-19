@@ -1,10 +1,8 @@
 import { Router } from "express"
-//import CartManager from "../dao/managers/fsmanagers/CartManager.js"
 import CartManager from "../dao/managers/mongomanagers/mongoCartManager.js"
 import __dirname from "../utils.js"
 
 const cartsRouter = Router()
-//const cartManager = new CartManager(__dirname + '/dao/managers/fsmanagers/data/carts.json')
 const cartManager = new CartManager()
 
 cartsRouter.get('/', async (req, res) => {
@@ -21,9 +19,6 @@ cartsRouter.get('/', async (req, res) => {
 cartsRouter.get('/:cid', async (req, res) => {
     try {
         const cid = req.params.cid
-        // if (isNaN(cid)) {
-        //     return res.status(400).send({ error: 'El id no es un número' })
-        // }
         const cart = await cartManager.getCartById(cid)
 
         if (!cart) {
@@ -51,10 +46,6 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
         const cid = req.params.cid
         const pid = req.params.pid
 
-        // if (isNaN(cid) || isNaN(pid)) {
-        //     return res.status(400).json({ error: 'El id no es un número' })
-        // }
-
         await cartManager.addProductToCart(cid, pid)
 
         // if (addToCart === null) {
@@ -70,6 +61,42 @@ cartsRouter.post('/:cid/product/:pid', async (req, res) => {
     catch (error) {
         res.status(500).json({ error: 'Ocurrió un error al agregar el producto al carrito', message: error.message })
 
+    }
+})
+
+cartsRouter.delete('/:cid/products/:pid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const pid = req.params.pid
+
+        await cartManager.deleteProductInCart(cid, pid)
+
+        res.json({ message: `Se eliminó el producto ${pid} del carrito ${cid}` })
+
+    } catch (error) {
+        res.status(500).json({ error: 'Ocurrió un error al intentar eliminar el producto', message: error.message })
+    }
+
+})
+
+cartsRouter.put('/:cid', async (req, res) => {
+
+})
+
+cartsRouter.put('/:cid/products/:pid', async (req, res) => {
+
+})
+
+cartsRouter.delete('/:cid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+
+        await cartManager.deleteAllProducts(cid)
+
+        res.json({ message: `Se eliminaron todos los productos del carrito ${cid}` })
+
+    } catch (error) {
+        res.status(500).json({ error: 'Ocurrió un error al intentar eliminar los productos', message: error.message })
     }
 })
 
