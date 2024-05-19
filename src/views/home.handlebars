@@ -1,5 +1,5 @@
 <div class="container pt-5">
-    <h1 class="title pb-3">Lista de Productos</h1>
+    <h1 class="title pb-3"><a href="/">Lista de Productos</a></h1>
 
     <div class="columns is-centered">
         <div class="column">
@@ -25,4 +25,27 @@
             </div>
         </div>
     </div>
+
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {{#if hasPrevPage}}
+        <a href="{{prevLink}}" class="pagination-previous">Anterior</a>
+        {{else}}
+        <button class="pagination-previous" disabled>Anterior</button>
+        {{/if}}
+        {{#if hasNextPage}}
+        <a href="{{nextLink}}" class="pagination-next">Siguiente</a>
+        {{else}}
+        <button class="pagination-next" disabled>Siguiente</button>
+        {{/if}}
+        {{!-- <ul class="pagination-list">
+            <li><a href="#" class="pagination-link" aria-label="Goto page 1" aria-current="page">1</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a href="#" class="pagination-link" aria-label="Goto page 2">2</a></li>
+            <li>
+                <a class="pagination-link is-current" aria-label="Page 3">3</a>
+            </li>
+        </ul> --}}
+    </nav>
+
+
 </div>

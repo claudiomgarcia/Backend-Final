@@ -19,11 +19,23 @@ export default class ProductManager {
         }
     }
 
-    async getProducts(limit) {
+    async getProducts(limit, page, sort, query) {
         try {
-            const products = await productsModel.find().lean()
+            const filter = query ? { category: query } : {}
+            const options = {
+                limit: limit || 10,
+                page: page || 1,
+                sort: (sort === 'asc' || sort === 'desc') ? { price: sort === 'asc' ? 1 : -1 } : {}
+            }
+            const products = await productsModel.paginate(filter, { ...options, lean: true })
 
-            return limit ? products.slice(0, limit) : products
+            return {
+                products: products.docs,
+                totalProducts: products.totalDocs,
+                totalPages: products.totalPages,
+                currentPage: products.page
+            }
+
         } catch (error) {
             throw error
         }

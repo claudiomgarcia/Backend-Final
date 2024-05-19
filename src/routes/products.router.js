@@ -10,10 +10,29 @@ const productManager = new ProductManager()
 
 productsRouter.get('/', async (req, res) => {
     try {
-        const limit = parseInt(req.query.limit)
-        const readProducts = await productManager.getProducts(limit)
+        const { limit, sort, query } = req.query
+        const page = parseInt(req.query.page)
 
-        res.json(readProducts)
+        const readProducts = await productManager.getProducts(limit, page, sort, query)
+
+        const { products, totalProducts, totalPages, currentPage } = readProducts
+
+        const hasPrevPage = currentPage > 1
+        const hasNextPage = currentPage < totalPages
+
+        res.json({
+            status: 'success',
+            payload: products,
+            totalPages,
+            prevPage: hasPrevPage ? currentPage - 1 : null,
+            nextPage: hasNextPage ? currentPage + 1 : null,
+            page: currentPage,
+            hasPrevPage,
+            hasNextPage,
+            prevLink: hasPrevPage ? `/products?limit=${limit}&page=${currentPage - 1}&sort=${sort}&query=${query}` : null,
+            nextLink: hasNextPage ? `/products?limit=${limit}&page=${currentPage + 1}&sort=${sort}&query=${query}` : null
+        })
+
     } catch (error) {
         res.status(500).json({ error: 'Hubo un error al obtener los productos.', message: error.message })
     }
