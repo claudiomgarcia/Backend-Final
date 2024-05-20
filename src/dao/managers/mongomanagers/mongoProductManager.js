@@ -26,7 +26,7 @@ export default class ProductManager {
             if (query) {
                 const [category, status] = query.split(':')
                 if (category) {
-                    filter.category = category;
+                    filter.category = category
                 }
                 if (status) {
                     filter.status = status === 'true'

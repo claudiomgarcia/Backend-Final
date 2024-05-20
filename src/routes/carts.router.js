@@ -80,11 +80,36 @@ cartsRouter.delete('/:cid/products/:pid', async (req, res) => {
 })
 
 cartsRouter.put('/:cid', async (req, res) => {
+    const cid = req.params.cid
+    const products = req.body.products
 
+    try {
+        const updatedCart = await cartManager.updateCart(cid, products)
+        res.status(200).json(updatedCart)
+    } catch (error) {
+        res.status(500).json({ error: 'Ocurrió un error al actualizar', message: error.message })
+    }
 })
 
 cartsRouter.put('/:cid/products/:pid', async (req, res) => {
+    const cid = req.params.cid
+    const pid = req.params.pid
+    const { quantity, ...otherAttributes } = req.body
 
+    if (Object.keys(otherAttributes).length > 0) {
+        return res.status(400).send({ status: 'error', error: 'Solo se puede modificar la cantidad' })
+    }
+
+    if (typeof quantity !== 'number' || quantity < 0) {
+        return res.status(400).send({ status: 'error', error: 'Ingresar solo números positivos' })
+    }
+
+    try {
+        await cartManager.updateProductQuantity(cid, pid, quantity)
+        res.send({ status: 'success', message: 'Cantidad actualizada' })
+    } catch (error) {
+        res.status(500).json({ error: 'Ocurrió un error al actualizar', message: error.message })
+    }
 })
 
 cartsRouter.delete('/:cid', async (req, res) => {
@@ -93,7 +118,7 @@ cartsRouter.delete('/:cid', async (req, res) => {
 
         await cartManager.deleteAllProducts(cid)
 
-        res.json({ message: `Se eliminaron todos los productos del carrito ${cid}` })
+        res.json({ status: 'success', message: `Se eliminaron todos los productos del carrito ${cid}` })
 
     } catch (error) {
         res.status(500).json({ error: 'Ocurrió un error al intentar eliminar los productos', message: error.message })

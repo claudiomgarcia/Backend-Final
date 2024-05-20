@@ -78,13 +78,13 @@ export default class CartManager {
             if (!cart) {
                 throw new Error('El carrito ya está vacío')
             }
-            
+
             const updatedCart = await cartsModel.findOneAndUpdate(
                 { _id: cid },
                 { $pull: { products: {} } },
                 { new: true }
             )
-    
+
             if (!updatedCart) {
                 throw new Error('Carrito no encontrado')
             }
@@ -92,7 +92,41 @@ export default class CartManager {
         } catch (error) {
             throw error
         }
-        
     }
 
+    async updateCart(cid, products) {
+        try {
+            const cart = await cartsModel.findById(cid)
+            if (!cart) {
+                throw new Error('Carrito no encontrado')
+            }
+            cart.products = products
+            const updatedCart = await cart.save()
+            return updatedCart
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async updateProductQuantity(cid, pid, quantity) {
+        try {
+            const cart = await cartsModel.findById(cid)
+            if (!cart) {
+                throw new Error('Carrito no encontrado')
+            }
+
+            const productExist = await cartsModel.findOne({ _id: cid, "products.product": pid })
+            if (!productExist) {
+                throw new Error('Producto no encontrado')
+            }
+
+            return cartsModel.updateOne(
+                { "_id": cid, "products.product": pid },
+                { $set: { "products.$.quantity": quantity } }
+            )
+        } catch (error) {
+            throw error
+        }
+    }
 }
