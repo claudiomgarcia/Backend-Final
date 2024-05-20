@@ -1,10 +1,8 @@
 import { Router } from "express"
-//import ProductManager from '../dao/managers/fsmanagers/ProductManager.js'
 import ProductManager from '../dao/managers/mongomanagers/mongoProductManager.js'
 import { generateLink } from '../utils.js'
 
 const viewsRouter = Router()
-//const productManager = new ProductManager(__dirname + '/dao/managers/fsmanagers/data/products.json')
 
 const productManager = new ProductManager()
 
@@ -27,7 +25,7 @@ viewsRouter.get('/products', async (req, res) => {
             })
         }
 
-        res.render('home', {
+res.render('home', {
             readProducts: products,
             totalProducts,
             hasPrevPage,

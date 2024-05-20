@@ -21,7 +21,17 @@ export default class ProductManager {
 
     async getProducts(limit, page, sort, query) {
         try {
-            const filter = query ? { category: query } : {}
+
+            const filter = {}
+            if (query) {
+                const [category, status] = query.split(':')
+                if (category) {
+                    filter.category = category;
+                }
+                if (status) {
+                    filter.status = status === 'true'
+                }
+            }
             const options = {
                 limit: parseInt(limit) || 10,
                 page: parseInt(page) || 1,
