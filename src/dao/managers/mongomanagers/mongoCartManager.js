@@ -48,7 +48,7 @@ export default class CartManager {
 
     async deleteProductInCart(cid, pid) {
         try {
-            const productExist = await cartsModel.findOne({ _id: cid, "products.product": pid });
+            const productExist = await cartsModel.findOne({ _id: cid, "products.product": pid })
 
             if (!productExist) {
                 throw new Error('Producto no encontrado en el carrito')
@@ -61,7 +61,7 @@ export default class CartManager {
             )
 
             if (!updatedCart) {
-                throw new Error('Carrito no encontrado');
+                throw new Error('Carrito no encontrado')
             }
 
             return updatedCart
@@ -86,7 +86,7 @@ export default class CartManager {
             )
     
             if (!updatedCart) {
-                throw new Error('Carrito no encontrado');
+                throw new Error('Carrito no encontrado')
             }
 
         } catch (error) {

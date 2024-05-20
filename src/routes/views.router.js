@@ -18,7 +18,7 @@ viewsRouter.get('/products', async (req, res) => {
         const hasPrevPage = currentPage > 1
         const hasNextPage = currentPage < totalPages
 
-        const pages = [];
+        const pages = []
         for (let i = 1; i <= totalPages; i++) {
             pages.push({
                 pageNumber: i,

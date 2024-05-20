@@ -51,7 +51,7 @@ export default class ProductManager {
 
     async updateProduct(id, updatedFields) {
         try {
-            return await productsModel.findByIdAndUpdate(id, { $set: updatedFields });
+            return await productsModel.findByIdAndUpdate(id, { $set: updatedFields })
         } catch (error) {
             throw error
         }

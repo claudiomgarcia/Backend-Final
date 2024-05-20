@@ -28,9 +28,18 @@
                 {{#each readProducts}}
                 <div class="column is-one-fifth">
                     <div class="card" style="height: 100%">
-                        <p class="has-text-right">
-                            <a href="?query={{category}}" class="button is-small is-text">{{category}}</a>
-                        </p>
+                        <div class="level px-1 pt-2">
+                            <div class="level-left">
+                                <p class="level-item has-text-left">
+                                    <a href="?query={{category}}" class="button is-small is-link is-rounded">{{category}}</a>
+                                </p>
+                            </div>
+                            <div class="level-right">
+                                <p class="level-item has-text-right">
+                                    <button class="button is-small is-dark is-hovered is-rounded">Stock: {{stock}}</button>
+                                </p>
+                            </div>
+                        </div>
                         <div class="card-content mb-6" style="flex-grow: 1">
                             <p class="title is-5">{{title}}</p>
                             <p class="subtitle is-6">${{price}}</p>
@@ -38,7 +47,7 @@
                         </div>
                         <div style="position: absolute; bottom: 0; right: 0;">
                             <p class="buttons p-2">
-                                <button class="button is-link">Añadir al carrito</button>
+                                <button class="button is-link is-rounded">Añadir al carrito</button>
                             </p>
                         </div>
                     </div>

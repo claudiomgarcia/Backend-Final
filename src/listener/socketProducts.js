@@ -8,9 +8,9 @@ const productManager = new ProductManager()
 const socketProducts = (socketServer) => {
     socketServer.on('connection', async (socket) => {
 
-        const sendUpdatedProductList = async () => {
-            const productList = await productManager.getProducts()
-            socketServer.emit('sendProducts', productList)
+        const sendUpdatedProductList = async (limit, page, sort, query) => {
+            const productList = await productManager.getProducts(limit, page, sort, query)
+            socketServer.emit('sendProducts', productList.products)
         }
         sendUpdatedProductList()
 

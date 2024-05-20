@@ -1,12 +1,33 @@
 <div class="container pt-5">
-    <h1 class="title pb-3">Realtime Products</h1>
+    <h1 class="title pb-3"><a href="realtimeproducts">Realtime Products</a></h1>
+    <div class="buttons is-right">
+        <button class="button is-link"><i class="fas fa-shopping-cart p-1"></i>Carrito</button>
+    </div>
+
+    <div class="dropdown is-hoverable is-left pb-3">
+        <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                <span>Ordenar por:</span>
+                <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+            </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+            <div class="dropdown-content">
+                <a href="${ascLink}" class="dropdown-item"> Manor Precio </a>
+                <a href="${descLink}" class="dropdown-item"> Mayor Precio </a>
+            </div>
+        </div>
+    </div>
 
     <div class="columns is-centered">
+        <div class="column">
 
-        <div class="columns is-multiline is-centered" id="list-products">
+            <div class="columns is-multiline is-centered" id="list-products">
 
+            </div>
         </div>
-
     </div>
 
     <br />
@@ -26,6 +47,11 @@
                         <div class="control mb-2">
                             <input class="input" name="description" id="description" type="text"
                                 placeholder="Descripción" required>
+                        </div>
+                        <label class="label">Categoria</label>
+                        <div class="control mb-2">
+                            <input class="input" name="category" id="category" type="text" placeholder="Descripción"
+                                required>
                         </div>
                         <label class="label">Precio</label>
                         <div class="control mb-2">
@@ -58,13 +84,13 @@
             <div class="cell">
                 <h2 class="subtitle">Eliminar Producto</h2>
                 <div class="field column is-half">
-                        <label class="label">Id de Producto</label>
-                        <div class="control mb-2">
-                            <input class="input" name="id" id="id-prod" type="text" placeholder="ID" required>
-                        </div>
-                        <div class="control mb-2">
+                    <label class="label">Id de Producto</label>
+                    <div class="control mb-2">
+                        <input class="input" name="id" id="id-prod" type="text" placeholder="ID" required>
+                    </div>
+                    <div class="control mb-2">
                         <button class="button is-danger" type="button" id="delete-btn">Eliminar</button>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
