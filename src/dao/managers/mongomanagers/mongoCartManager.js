@@ -40,7 +40,7 @@ export default class CartManager {
 
     async getCartById(cid) {
         try {
-            return await cartsModel.findById(cid).populate('products.product')
+            return await cartsModel.findById(cid).populate('products.product').lean()
         } catch (error) {
             throw error
         }

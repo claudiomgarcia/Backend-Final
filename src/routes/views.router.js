@@ -1,17 +1,28 @@
 import { Router } from "express"
 import ProductManager from '../dao/managers/mongomanagers/mongoProductManager.js'
+import CartManager from "../dao/managers/mongomanagers/mongoCartManager.js"
 import { generateLink } from '../utils.js'
 
 const viewsRouter = Router()
 
 const productManager = new ProductManager()
+const cartManager = new CartManager()
+
+viewsRouter.get('/', (req, res) => {
+    res.render('home', { title: "Secciones" })
+})
 
 viewsRouter.get('/products', async (req, res) => {
     try {
         const { limit, sort, query, page } = req.query
+
         const readProducts = await productManager.getProducts(limit, page, sort, query)
 
         const { products, totalProducts, totalPages, currentPage } = readProducts
+
+        if (page !== undefined && (isNaN(page) || page <= 0 || page > totalPages)) {
+            res.status(404).json({ error: 'Página inexistente.' })
+        }
 
         const hasPrevPage = currentPage > 1
         const hasNextPage = currentPage < totalPages
@@ -25,7 +36,7 @@ viewsRouter.get('/products', async (req, res) => {
             })
         }
 
-res.render('home', {
+        res.render('products', {
             readProducts: products,
             totalProducts,
             hasPrevPage,
@@ -55,6 +66,17 @@ viewsRouter.get('/realtimeproducts', (req, res) => {
 
 viewsRouter.get('/chat', (req, res) => {
     res.render('chat', { title: "Chat" })
+})
+
+viewsRouter.get('/carts/:cid', async (req, res) => {
+    try {
+        const cid = req.params.cid
+        const cart = await cartManager.getCartById(cid)
+
+        res.render('cart', { cart, title: "Detalle del Carrito" })
+    } catch (error) {
+        res.status(500).json({ error: 'Hubo un error al obtener el carrito.', message: error.message })
+    }
 })
 
 export default viewsRouter

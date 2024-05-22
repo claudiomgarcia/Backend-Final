@@ -22,7 +22,15 @@ const socketServer = new Server(httpServer)
 
 const handlebars = create({
     helpers: {
-        truncate
+        truncate,
+        multiply: (a, b) => a * b,
+        cartTotal: (products) => {
+            let total = 0;
+            products.forEach(product => {
+                total += product.product.price * product.quantity;
+            })
+            return total.toFixed(2)
+        }
     }
 })
 
