@@ -2,7 +2,7 @@
     <h1 class="title pb-3"><a href="/products">Lista de Productos</a></h1>
 
     <div class="buttons is-right">
-        <a href="/carts/66455281d63b4c7205913bf4" class="button is-link"><i class="fas fa-shopping-cart p-1"></i>Carrito</a>
+        <a href="/carts/{{defaultCart._id}}" class="button is-link"><i class="fas fa-shopping-cart p-1"></i>Carrito ({{countProducts defaultCart.products}})</a>
     </div>
 
     <div class="dropdown is-hoverable is-left pb-3">
@@ -56,11 +56,13 @@
                             <div class="level-right">
                                 <p class="level-item has-text-right">
                                     {{#if status}}
-                                    <button class="button is-small is-dark is-hovered is-rounded">
-                                    Stock: {{stock}}</button>
+                                    <button class="button is-small is-dark is-hovered is-rounded"
+                                        style="cursor: default">
+                                        Stock: {{stock}}</button>
                                     {{else}}
-                                    <button class="button is-small is-danger is-hovered is-rounded">
-                                    No Disponible</button>
+                                    <button class="button is-small is-danger is-hovered is-rounded"
+                                        style="cursor: default">
+                                        No Disponible</button>
                                     {{/if}}
                                 </p>
                             </div>
@@ -73,7 +75,8 @@
                         <div style="position: absolute; bottom: 0; right: 0;">
                             <p class="buttons p-2">
                                 {{#if status}}
-                                <button class="button is-link is-rounded">Añadir al carrito</button>
+                                <button class="button is-link is-rounded" data-cid="{{../defaultCart._id}}"
+                                    data-pid="{{id}}" onclick="addToCart(this)">Añadir al carrito</button>
                                 {{else}}
                                 <button class="button is-link is-rounded" disabled>Añadir al carrito</button>
                                 {{/if}}
@@ -111,3 +114,49 @@
         </nav>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        window.addToCart = async function (button) {
+            const cid = button.getAttribute('data-cid')
+            const pid = button.getAttribute('data-pid')
+
+            const url = `http://localhost:8080/api/carts/${cid}/product/${pid}`
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+
+                const result = await response.json()
+
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    width: 300,
+                    title: "Producto añadido al carrito",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+            } catch (error) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    width: 300,
+                    title: "Error al añadir el producto al carrito",
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+        }
+    })
+</script>

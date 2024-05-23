@@ -129,4 +129,18 @@ export default class CartManager {
             throw error
         }
     }
+
+    //Metodo creado para esta entrega asignar un carrito a la vista /products. 
+    //Asigna el primer carrito que encuentra y si no existe ninguno, crea uno y lo asigna como por defecto
+    async getOrCreateCart() {
+        try {
+            let cart = await cartsModel.findOne().lean()
+            if (!cart) {
+                cart = await this.createCart()
+            }
+            return cart
+        } catch (error) {
+            throw error
+        }
+    }
 }

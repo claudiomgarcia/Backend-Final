@@ -34,7 +34,9 @@ Muestra un listado con todos los productos.
 Se puede ordenar por precio ascendente y descendente y ver por disponibilidad. La paginación varia según el el valor de query param "limit", por defecto 10.
 
 Se puede filtrar por categorias, utilizando el query param "?query=NombredelaCategoria" o haciendo click en la tarjeta de algún producto:
+
 ![alt text](<src/public/img/readme/Captura de pantalla 2024-05-22 180440.png>)
+
 Cada tarjeta de producto indica si está disponible o no.
 
 #### /cart/:cid

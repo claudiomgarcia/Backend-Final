@@ -24,10 +24,17 @@ const handlebars = create({
     helpers: {
         truncate,
         multiply: (a, b) => a * b,
-        cartTotal: (products) => {
-            let total = 0;
+        countProducts: function (products) {
+            let total = 0
             products.forEach(product => {
-                total += product.product.price * product.quantity;
+                total += product.quantity
+            })
+            return total
+        },
+        cartTotal: (products) => {
+            let total = 0
+            products.forEach(product => {
+                total += product.product.price * product.quantity
             })
             return total.toFixed(2)
         }
