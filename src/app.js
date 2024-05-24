@@ -3,7 +3,7 @@ import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views.router.js'
 import { create } from 'express-handlebars'
-import truncate from './views/helpers/truncate.js'
+import customHelpers from './views/helpers/customHelpers.js'
 import { Server } from 'socket.io'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
@@ -21,24 +21,7 @@ const httpServer = app.listen(PORT, console.log(`Server running on: http://local
 const socketServer = new Server(httpServer)
 
 const handlebars = create({
-    helpers: {
-        truncate,
-        multiply: (a, b) => a * b,
-        countProducts: function (products) {
-            let total = 0
-            products.forEach(product => {
-                total += product.quantity
-            })
-            return total
-        },
-        cartTotal: (products) => {
-            let total = 0
-            products.forEach(product => {
-                total += product.product.price * product.quantity
-            })
-            return total.toFixed(2)
-        }
-    }
+    helpers: customHelpers
 })
 
 app.use(express.json())
