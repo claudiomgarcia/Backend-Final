@@ -2,7 +2,8 @@
     <h1 class="title pb-3"><a href="/products">Lista de Productos</a></h1>
 
     <div class="buttons is-right">
-        <a href="/carts/{{defaultCart._id}}" class="button is-link"><i class="fas fa-shopping-cart p-1"></i>Carrito ({{countProducts defaultCart.products}})</a>
+        <a href="/carts/{{defaultCart._id}}" class="button is-link"><i class="fas fa-shopping-cart p-1"></i>Carrito
+            ({{countProducts defaultCart.products}})</a>
     </div>
 
     <div class="dropdown is-hoverable is-left pb-3">
@@ -122,7 +123,7 @@
             const cid = button.getAttribute('data-cid')
             const pid = button.getAttribute('data-pid')
 
-            const url = `http://localhost:8080/api/carts/${cid}/product/${pid}`
+            const url = `/api/carts/${cid}/product/${pid}`
 
             try {
                 const response = await fetch(url, {
@@ -131,9 +132,9 @@
                         'Content-Type': 'application/json'
                     }
                 })
-                
+
                 if (!response.ok) {
-                    throw new Error('Network response was not ok')
+                    throw new Error('Error en la solicitud')
                 }
 
                 const result = await response.json()
@@ -144,7 +145,11 @@
                     width: 300,
                     title: "Producto añadido al carrito",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
+                    background: '#2f2f2f',
+                    color: '#ffffff'
+                }).then(() => {
+                    window.location.reload()
                 })
 
             } catch (error) {
@@ -154,7 +159,9 @@
                     width: 300,
                     title: "Error al añadir el producto al carrito",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
+                    background: '#2f2f2f',
+                    color: '#ffffff'
                 })
             }
         }
